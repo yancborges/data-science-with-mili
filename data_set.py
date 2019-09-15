@@ -18,7 +18,7 @@ class data_set:
 
 		for song_tup in self.data:
 			formatted = self.splitParams(song_tup)
-			song = lyrics(formatted[1], formatted[0])
+			song = lyrics(formatted[1], formatted[0],'Blank')
 			if(not song.content == 'None'):
 				song.clean(True)
 				all_songs_objects.append(song)

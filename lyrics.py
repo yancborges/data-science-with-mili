@@ -8,17 +8,16 @@ import decimal
 
 class lyrics:
 
-	def __init__(self, name, url):
+	def __init__(self, name, url, album):
 		self.name = name
 		self.url = url
+		self.content = 'None'
 		if(self.validName()):
 			try:
 				data = self.open()
 			except:
 				self.save()
-				data = self.open()
-			self.album = data[0][1:-2]
-			self.content = data[1:]
+				self.content = self.open()
 		else:
 			self.content = "None"
 			self.album = 'None'
@@ -39,17 +38,24 @@ class lyrics:
 		resp = urllib.request.urlopen(self.url).read().decode('utf8')
 		with open( 'C://Users//Yan//Documents//GitHub//data-science-with-mili//lyrics//' + self.name.replace(' ', '_') + '.txt', 'w', encoding="utf-8") as f:
 			text = re.findall(r'<div class=\'lyricbox\'>.+<div',resp)[0]
-			#f.write(self.decode(text))
-			f.write(text.decode('utf8'))
+			text = text[text.find('>')+1:-4]
+			if(text.find('Instrumental') > -1):
+				self.content = 'None'
+			else:
+				#f.write(self.decode(text))
+				f.write(self.decode(text))
 
 	def __str__(self):
 		return ('%s - %s\nLyrics: %s' %(self.name, self.album, self.format_content()))
 
 	def decode(self, text):
-		blocks = text.replace('<br />','\n').split(';')
+		blocks = text.replace('<br />','').split(';')
 		decoded = ''
 		for item in blocks:
-			decoded += str(item[2:])
+			try:
+				decoded += bytearray.fromhex(hex(int(item[2:]))).decode()
+			except:
+				pass
 		return decoded
 
 
