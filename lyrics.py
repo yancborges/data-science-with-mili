@@ -45,15 +45,22 @@ class lyrics:
 				#f.write(self.decode(text))
 				f.write(self.decode(text))
 
+
+
 	def __str__(self):
 		return ('%s - %s\nLyrics: %s' %(self.name, self.album, self.format_content()))
 
 	def decode(self, text):
-		blocks = text.replace('<br />','').split(';')
+		blocks = text.split(';')
 		decoded = ''
 		for item in blocks:
 			try:
-				decoded += bytearray.fromhex(hex(int(item[2:]))).decode()
+				if(item.startswith('<br /><br />')):
+					decoded += '\n\n' + str(chr(int(item[14:])))
+				elif(item.startswith('<br />')):
+					decoded += '\n' + str(chr(int(item[8:])))
+				else:
+					decoded += chr(int(item[2:]))
 			except:
 				pass
 		return decoded
