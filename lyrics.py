@@ -25,7 +25,7 @@ class lyrics:
 				self.save()
 			except:
 				pass
-		else:
+		if(self.isNonEnglish()):
 			self.content = "None"
 			self.album = 'None'
 
@@ -99,3 +99,13 @@ class lyrics:
 			for word in phrase:
 				lyrics += word + " "
 		return lyrics
+
+	def isNonEnglish(self):
+		ne_words = 0
+		t_words = nltk.word_tokenize(self.content)
+		for word in t_words:
+			if not wordnet.synsets(word):
+				ne_words += 1
+		if((100*ne_words)/t_words) > 60:
+			return True
+		return False
