@@ -12,12 +12,19 @@ class lyrics:
 		self.name = name
 		self.url = url
 		self.content = 'None'
-		if(self.validName()):
+		'''if(self.validName()):
 			try:
 				data = self.open()
 			except:
 				self.save()
-				self.content = self.open()
+				self.content = self.open()'''
+		try:
+			data = self.open()
+		except:
+			try:
+				self.save()
+			except:
+				pass
 		else:
 			self.content = "None"
 			self.album = 'None'
