@@ -19,10 +19,11 @@ class lyrics:
 				self.save()
 				self.content = self.open()'''
 		try:
-			data = self.open()
+			self.content = self.open()
 		except:
 			try:
 				self.save()
+				self.content = self.open()
 			except:
 				pass
 		if(self.isNonEnglish()):
@@ -102,10 +103,13 @@ class lyrics:
 
 	def isNonEnglish(self):
 		ne_words = 0
-		t_words = nltk.word_tokenize(self.content)
-		for word in t_words:
-			if not wordnet.synsets(word):
-				ne_words += 1
-		if((100*ne_words)/t_words) > 60:
-			return True
-		return False
+		try:
+			t_words = word_tokenize(self.content)
+			for word in t_words:
+				if not wordnet.synsets(word):
+					ne_words += 1
+			if((ne_words)/len(t_words)) > 0.6:
+				return True
+			return False
+		except:
+			return False
