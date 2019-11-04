@@ -87,7 +87,7 @@ class lyrics:
 					clean_phrase.append(word)
 				else:
 					ignore_count += 1
-					print('%s words ignored in %s' %(ignore_count, self.name))
+					print('%s words ignored in %s: %s' %(ignore_count, self.name, word))
 			clean_lyrics.append(clean_phrase)
 		if(inplace == False):
 			return clean_lyrics
